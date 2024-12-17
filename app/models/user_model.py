@@ -6,8 +6,9 @@ from sqlalchemy import (
     Column, String, Integer, DateTime, Boolean, func, Enum as SQLAlchemyEnum
 )
 from sqlalchemy.dialects.postgresql import UUID, ENUM
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
+from app.models.invitation_model import Invitation
 
 class UserRole(Enum):
     """Enumeration of user roles within the application, stored as ENUM in the database."""
@@ -73,6 +74,9 @@ class User(Base):
     verification_token = Column(String, nullable=True)
     email_verified: Mapped[bool] = Column(Boolean, default=False, nullable=False)
     hashed_password: Mapped[str] = Column(String(255), nullable=False)
+    invitations_sent: Mapped[list["Invitation"]] = relationship(
+    "Invitation", back_populates="inviter", cascade="all, delete-orphan"
+)
 
 
     def __repr__(self) -> str:

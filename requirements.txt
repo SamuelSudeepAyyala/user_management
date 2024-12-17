@@ -63,3 +63,4 @@ markdown2
 pyjwt
 qrcode
 minio
+pillow
