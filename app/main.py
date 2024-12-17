@@ -6,6 +6,7 @@ from app.database import Database
 from app.dependencies import get_settings
 from app.routers import user_routes
 from app.utils.api_description import getDescription
+from app.utils.minio_utils import minio_client
 app = FastAPI(
     title="User Management",
     description=getDescription(),
@@ -28,10 +29,21 @@ app.add_middleware(
     allow_headers=["*"],  # Allowed HTTP headers
 )
 
+def create_bucket():
+    client = minio_client()
+    bucket_name = "qrcodebucket"
+    if not client.bucket_exists(bucket_name):
+        client.make_bucket(bucket_name)
+        print(f"Bucket '{bucket_name}' created successfully.")
+    else:
+        print(f"Bucket '{bucket_name}' already exists.")
+
+
 @app.on_event("startup")
 async def startup_event():
     settings = get_settings()
     Database.initialize(settings.database_url, settings.debug)
+    create_bucket()
 
 @app.exception_handler(Exception)
 async def exception_handler(request, exc):

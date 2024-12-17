@@ -67,6 +67,8 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+    networks:
+      - app-network
 
 volumes:
   postgres-data:
