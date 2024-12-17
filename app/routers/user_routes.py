@@ -21,6 +21,9 @@ Key Highlights:
 from builtins import dict, int, len, str
 from datetime import timedelta
 from uuid import UUID
+import qrcode
+from io import BytesIO
+from starlette.responses import StreamingResponse
 from fastapi import APIRouter, Depends, HTTPException, Response, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -245,3 +248,25 @@ async def verify_email(user_id: UUID, token: str, db: AsyncSession = Depends(get
     if await UserService.verify_email_with_token(db, user_id, token):
         return {"message": "Email verified successfully"}
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired verification token")
+
+@router.get("/generate-qr/")
+async def generate_qr(data: str):
+    # Generate QR code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    # Create an image from the QR Code instance
+    img = qr.make_image(fill_color='black', back_color='white')
+
+    # Convert the image to a bytes stream for response
+    img_byte_arr = BytesIO()
+    img.save(img_byte_arr)
+    img_byte_arr.seek(0)
+
+    return StreamingResponse(img_byte_arr, media_type="image/png")
