@@ -1,19 +1,65 @@
 
+<h1 align="center">
+The User Management System Final Project 🎯🏆🌟
+</h1>
 
-# The User Management System Final Project: Your Epic Coding Adventure Awaits! 🎉✨🔥
+## Learning Outcomes from the Project:📚
+    - I have gained good hands on experience with building API using fastAPI along with things like request handling, dependency injection, middleware integration.
+    - Learned about implementing RESTful endpoints following industry standards like HATEOS BREAD.
+    - Learnings about how to design and implement normalized relational database schemas using SQLAlchemy ORM.
+    - Learned to manage the asynchronous database sessions with AsyncSession and connection pooling.
+    - Explored how the querying works using SQLAlchemy like joins, filters and paginations.
+    - Learned how to use Pydantic models to validate the API input and serialise database responses into JSON.
+    - Implementing QR code generation using qrcode library using custom parameters like encoded and decoded information.
+    - Encoding user data securely using base64 and integrating it to the QR codes.
+    - Implementing BREAD HATEOS principles, provides the self descpritive links for navigation.
+    - Tackled complex issues like base64 handling, managing database transactions, aligning SQLalchemy models with pydantic schemas.
+    - Worked on the User Profile Management feature in which I have implemented API endpoints for users to update their profile fields.
+    - Created a separate API endpoint for managers and admins to upgrade a user to professional status.
+    - Added the feature of Send notifications to users when their professional status is upgraded.
+    - Improved my analytical skills by debugging intricate tracebacks and resolving the issues raised while testing.
+    - Conducting manual testing for the API endpoints to ensure if they are behaving the expected way in different scenarios.
+    - Simulating real world scenarios including QR code scanning and invalid input handling.
 
-## Introduction: Buckle Up for the Ride of a Lifetime 🚀🎬
+## Submissions: 📝✏️📈
 
-Welcome to the User Management System project - an epic open-source adventure crafted by the legendary Professor Keith Williams for his rockstar students at NJIT! 🏫👨‍🏫⭐ This project is your gateway to coding glory, providing a bulletproof foundation for a user management system that will blow your mind! 🤯 You'll bridge the gap between the realms of seasoned software pros and aspiring student developers like yourselves. 
+here is the link for the main branch of the final project to access the completed code.
+[GitHub Repository Link](https://github.com/SamuelSudeepAyyala/user_management/tree/main)
 
-### [Instructor Video - Project Overview and Tips](https://youtu.be/gairLNAp6mA) 🎥
+Here is the link to Check the DockerHub repository in which the working project with all github actions successful is deployed.
+[DockerHub Repository Link](https://hub.docker.com/repository/docker/samuelsudeepayyala/user_management/general)
 
-- [Introduction to the system features and overview of the project - please read](system_documentation.md) 📚
-- [Project Setup Instructions](setup.md) ⚒️
-- [Features to Select From](features.md) 🛠️
-- [About the Project](about.md)🔥🌟
+A detailed document in which I have mentioned my reflections and submission of the work I have gone through in the working of the project.
+[Reflection Document](./IS601_Final_Project.docx)
 
-## Goals and Objectives: Unlock Your Coding Superpowers 🎯🏆🌟
+I have worked on few QA issues that I have found in the application and 2 features I have selected from the list of features given.
+
+### Features:
+    - [👤 User Profile Management](https://github.com/SamuelSudeepAyyala/user_management/issues/9)
+    - [🎫 QR Code Generation User Invites with Minio](https://github.com/SamuelSudeepAyyala/user_management/issues/3)
+    Associated all the commits to the branch that I have worked on. Commited the changes to main branch only after everything is good on the feature branch.
+
+### GitHUB Issues:
+    - 🪲 [Bug Report: Error While Installing libc-bin in Docker Build](https://github.com/SamuelSudeepAyyala/user_management/issues/1)
+        When building a Docker image for running FastApi then while installing the dependencies, the build fails with an error of a specific version of libc-bin. This issue is that is shown is related to package downgrade restriction.
+    - 🪲 [Bug Report - UserID is being passed as None in the verification email URL ](https://github.com/SamuelSudeepAyyala/user_management/issues/5)
+        When testing the verify-email API have got the bug the URL that is being formed is sending UserID as None for email send.
+    - 🪲 [Bug Report - Nickname mismatch](https://github.com/SamuelSudeepAyyala/user_management/issues/6)
+        When trying to creating a new user i have observed that the nickname that is being shown on the API response and the nickname that is stored on the Database are different.
+    - 🪲 [Bug Report : Failure of Update User API when is_professional is passed](https://github.com/SamuelSudeepAyyala/user_management/issues/7)
+        The end point Update User is failing when we try to update the User Data with the is_professional attribute. May be there is a schema mis match.
+    - 🪲 [Bug Report: Null values for Github and LinkedIn URLS on update](https://github.com/SamuelSudeepAyyala/user_management/issues/8)
+        Update User API is returning null values after updation for Github profile URL and LinkedIn Profile URL.
+    - 🪲 [Bug Report : Vulnerabilities found on Docker Scan](https://github.com/SamuelSudeepAyyala/user_management/issues/13)
+        Docker Scan has raised below issues:
+        Python (python-pkg)
+        ===================
+        Total: 3 (HIGH: 2, CRITICAL: 1)
+        ![image](https://github.com/user-attachments/assets/ff6444b0-ea6c-4d3e-94c9-e13c08aa2a8b)
+
+
+
+## Goals and Objectives: Unlock Your Coding Superpowers 
 
 Get ready to ascend to new heights with this legendary project:
 
@@ -24,7 +70,7 @@ Get ready to ascend to new heights with this legendary project:
 5. **Collaboration**: Foster teamwork and collaboration through code reviews, issue tracking, and adhering to contribution guidelines - teamwork makes the dream work, and together you'll conquer worlds! 🤝💪🌍
 6. **Industry Readiness**: Prepare for the software industry by working on a project that simulates real-world development scenarios - level up your skills to super hero status  and become an unstoppable coding force! 🔝🚀🏆⚡
 
-## Submission and Grading: Your Chance to Shine 📝✏️📈
+## Submission and Grading: Your Chance to Shine 
 
 1. **Reflection Document**: Submit a 1-2 page Word document reflecting on your learnings throughout the course and your experience working on this epic project. Include links to the closed issues for the **5 QA issues, 10 NEW tests, and 1 Feature** you'll be graded on. Make sure your project successfully deploys to DockerHub and include a link to your Docker repository in the document - let your work speak for itself! 📄🔗💥
 
