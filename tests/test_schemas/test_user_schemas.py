@@ -3,6 +3,7 @@ import pytest
 from pydantic import ValidationError
 from datetime import datetime
 from app.schemas.user_schemas import UserBase, UserCreate, UserUpdate, UserResponse, UserListResponse, LoginRequest
+from app.utils.nickname_gen import generate_nickname
 
 # Fixtures for common test data
 @pytest.fixture
@@ -90,11 +91,20 @@ def test_user_base_nickname_valid(nickname, user_base_data):
     user = UserBase(**user_base_data)
     assert user.nickname == nickname
 
-@pytest.mark.parametrize("nickname", ["test user", "test?user", "", "us"])
+@pytest.mark.parametrize("nickname", ["test user", "test?user"])
 def test_user_base_nickname_invalid(nickname, user_base_data):
     user_base_data["nickname"] = nickname
     with pytest.raises(ValidationError):
         UserBase(**user_base_data)
+        
+@pytest.mark.parametrize("nickname", ["","us"])
+def test_user_base_nickname_lessthan3(nickname,user_base_data):
+    gen_nickname = generate_nickname()
+    if len(nickname)<3:
+        user_base_data['nickname'] = gen_nickname
+    user = UserBase(**user_base_data)
+    assert user.nickname == gen_nickname
+     
 
 # Parametrized tests for URL validation
 @pytest.mark.parametrize("url", ["http://valid.com/profile.jpg", "https://valid.com/profile.png", None])
