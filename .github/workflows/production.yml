@@ -75,6 +75,7 @@ jobs:
           cache-from: type=registry,ref=samuelsudeepayyala/user_management:cache
           cache-to: type=inline,mode=max
           
+          
       - name: Scan the Docker image
         uses: aquasecurity/trivy-action@master
         with:
