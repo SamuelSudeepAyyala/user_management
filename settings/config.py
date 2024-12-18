@@ -46,6 +46,8 @@ class Settings(BaseSettings):
         # If your .env file is not in the root directory, adjust the path accordingly.
         env_file = ".env"
         env_file_encoding = 'utf-8'
+        BASE_REDIRECT_URL = "https://github.com/SamuelSudeepAyyala/user_management"
+        APP_BASE_URL = "http://localhost"
 
 # Instantiate settings to be imported in your application
 settings = Settings()

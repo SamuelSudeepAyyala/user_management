@@ -37,6 +37,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://user:password@postgres:5432/myappdb"
     networks:
       - app-network
 
@@ -51,9 +53,29 @@ services:
     networks:
       - app-network
 
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: "root_minio"
+      MINIO_ROOT_PASSWORD: "password_minio"
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - app-network
+
 volumes:
   postgres-data:
   pgadmin-data:
+  minio_data:
 
 networks:
   app-network:

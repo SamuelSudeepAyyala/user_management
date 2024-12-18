@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /myapp
 
 # Update system and specifically upgrade libc-bin to the required security patch version
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --allow-downgrades --no-install-recommends \
     gcc \
     libpq-dev \
     && apt-get install -y --allow-downgrades libc-bin=2.36-9+deb12u7 \
