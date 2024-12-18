@@ -33,3 +33,4 @@ class Invitation(Base):
     
     def __repr__(self):
         return f"<Invitation to {self.invitee_email}, Status: {self.status}>"
+    from pydantic import BaseModel, EmailStr
