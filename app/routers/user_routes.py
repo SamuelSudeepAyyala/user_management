@@ -253,6 +253,25 @@ async def verify_email(user_id: UUID, token: str, db: AsyncSession = Depends(get
         return {"message": "Email verified successfully"}
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired verification token")
 
+@router.put("/profile-update", response_model=UserResponse, name="profile-update", tags = ["User Profile Management"])
+async def update_profile(update: UserUpdate, db: AsyncSession = Depends(get_db), current_user=Depends(get_current_user)):
+    try:
+        update_data = update.model_dump(exclude_unset=True)
+        updated_user = await UserService.update_user(db, current_user["user_id"], update_data)
+        return updated_user
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Error updating profile: {e}")
+
+@router.put("/promote", response_model=UserResponse, name="promote-user", tags = ["User Profile Management"])
+async def promote_user(user_id: UUID, request: Request, db: AsyncSession = Depends(get_db),current_user: dict = Depends(require_role(["ADMIN", "MANAGER"])), token: str = Depends(oauth2_scheme),  email_service: EmailService = Depends(get_email_service)):
+    try:
+        user_to_promote = await UserService.promote_user(db, user_id, email_service)
+        if not user_to_promote:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User is not present")
+        return user_to_promote
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Error promoting user: {e}")
+
 @router.get("/generate-qr/")
 async def generate_qr(data: str):
     # Generate QR code

@@ -204,3 +204,31 @@ class UserService:
             await session.commit()
             return True
         return False
+
+    @classmethod
+    async def update_user(cls, session: AsyncSession, user_id: str, update_data: Dict[str, str]) -> Optional[User]:
+        user_email = user_id
+        user = await cls.get_by_email(session, user_email)
+        if user:
+            new_update_data = UserUpdate(**update_data).model_dump(exclude_unset=True)
+            await session.execute(update(User).where(User.email == user.email).values(**new_update_data).execution_options(synchronize_session="fetch"))
+            await session.commit()
+            return user
+        else:
+            raise Exception("User not found")
+    
+    @classmethod
+    async def promote_user(cls, session: AsyncSession, user_id: UUID, email_service: EmailService):
+        user = await cls.get_by_id(session, user_id)
+        send_email = True
+        if user.is_professional:
+            send_email = False
+        if user:
+            user.is_professional = True
+            user.professional_status_updated_at = datetime.utcnow()
+            await session.commit()
+            if send_email:
+                await email_service.send_promotion_mail(user.email)
+            return user
+        else:
+            raise Exception("User Not Found")
