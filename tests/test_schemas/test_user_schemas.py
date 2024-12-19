@@ -105,7 +105,6 @@ def test_user_base_nickname_lessthan3(nickname,user_base_data):
     user = UserBase(**user_base_data)
     assert user.nickname == gen_nickname
      
-
 # Parametrized tests for URL validation
 @pytest.mark.parametrize("url", ["http://valid.com/profile.jpg", "https://valid.com/profile.png", None])
 def test_user_base_url_valid(url, user_base_data):

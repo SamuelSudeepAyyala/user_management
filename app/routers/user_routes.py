@@ -253,6 +253,15 @@ async def verify_email(user_id: UUID, token: str, db: AsyncSession = Depends(get
         return {"message": "Email verified successfully"}
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired verification token")
 
+@router.put("/profile-update", response_model=UserResponse, name="profile-update", tags = ["User Profile Management"])
+async def update_profile(update: UserUpdate, db: AsyncSession = Depends(get_db), current_user=Depends(get_current_user)):
+    try:
+        update_data = update.model_dump(exclude_unset=True)
+        updated_user = await UserService.update_user(db, current_user["user_id"], update_data)
+        return updated_user
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Error updating profile: {e}")
+
 @router.get("/generate-qr/")
 async def generate_qr(data: str):
     # Generate QR code

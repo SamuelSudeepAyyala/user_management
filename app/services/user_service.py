@@ -204,3 +204,15 @@ class UserService:
             await session.commit()
             return True
         return False
+
+    @classmethod
+    async def update_user(cls, session: AsyncSession, user_id: str, update_data: Dict[str, str]) -> Optional[User]:
+        user_email = user_id
+        user = await cls.get_by_email(session, user_email)
+        if user:
+            new_update_data = UserUpdate(**update_data).model_dump(exclude_unset=True)
+            await session.execute(update(User).where(User.email == user.email).values(**new_update_data).execution_options(synchronize_session="fetch"))
+            await session.commit()
+            return user
+        else:
+            raise Exception("User not found")
