@@ -216,3 +216,19 @@ class UserService:
             return user
         else:
             raise Exception("User not found")
+    
+    @classmethod
+    async def promote_user(cls, session: AsyncSession, user_id: UUID, email_service: EmailService):
+        user = await cls.get_by_id(session, user_id)
+        send_email = True
+        if user.is_professional:
+            send_email = False
+        if user:
+            user.is_professional = True
+            user.professional_status_updated_at = datetime.utcnow()
+            await session.commit()
+            if send_email:
+                await email_service.send_promotion_mail(user.email)
+            return user
+        else:
+            raise Exception("User Not Found")
