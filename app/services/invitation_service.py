@@ -16,7 +16,7 @@ import logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-async def generate_invitation(inviter_id: UUID, invitee_email: str, db: AsyncSession = Depends(Database.get_session_factory)):
+async def generate_invitation(inviter_id: UUID, invitee_email: str,db: AsyncSession = Depends(Database.get_session_factory),):
     """
     Generates a unique QR code for the invite, uploads it to MinIO, and saves the invitation to the database.
 

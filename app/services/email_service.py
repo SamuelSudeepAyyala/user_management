@@ -38,8 +38,8 @@ class EmailService:
         
     async def send_promotion_mail(self,user_email:str):
         self.smtp_client.send_email(
-            user_email,
             subject="Congrats!! You are a professional Now!",
-            body="Hi {user.email}. This is to inform you that you have been promoted to professional status.Congratulations!!"
+            html_content="Hi {user.email}. This is to inform you that you have been promoted to professional status.Congratulations!!",
+            recipient=user_email
             )
         
