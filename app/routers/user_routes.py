@@ -262,7 +262,7 @@ async def update_profile(update: UserUpdate, db: AsyncSession = Depends(get_db),
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Error updating profile: {e}")
 
-@router.put("/promote", response_model=UserResponse, name="promote-user", tags = ["User Profile Management"])
+@router.put("/promote/{user_id}/", response_model=UserResponse, name="promote-user", tags = ["User Profile Management"])
 async def promote_user(user_id: UUID, request: Request, db: AsyncSession = Depends(get_db),current_user: dict = Depends(require_role(["ADMIN", "MANAGER"])), token: str = Depends(oauth2_scheme),  email_service: EmailService = Depends(get_email_service)):
     try:
         user_to_promote = await UserService.promote_user(db, user_id, email_service)
